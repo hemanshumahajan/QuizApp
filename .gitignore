@@ -1,0 +1,13 @@
+# Node
+frontend/node_modules
+frontend/dist
+frontend/build
+
+# .NET
+backend/QuizAPI/bin
+backend/QuizAPI/obj
+backend/QuizAPI/appsettings.Development
+backend/QuizAPI/appsettings
+
+# Env files
+.env
