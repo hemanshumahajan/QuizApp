@@ -19,7 +19,8 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                 "http://localhost:5173",   // Vite (React frontend)
-                "http://localhost:3000"    // fallback / CRA
+                "http://localhost:3000",    // fallback / CRA
+                "https://quiz-app-azure-mu-29.vercel.app/" // Deployed frontend on Vercel
               )
               .AllowAnyMethod()
               .AllowAnyHeader();

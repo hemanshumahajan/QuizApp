@@ -11,3 +11,6 @@ backend/QuizAPI/appsettings
 
 # Env files
 .env
+
+# Visual Studio
+.vs/
