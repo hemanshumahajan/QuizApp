@@ -79,15 +79,15 @@ export default function Quiz() {
     if (revealed || transitioning || !currentQuestion) return;
     setSelectedIdx(optionIndex);
     setTimerRunning(false);
-    recordAnswer(currentQuestion.QnId, optionIndex);
+    recordAnswer(currentQuestion.qnId, optionIndex);
 
     // Fetch correct answer for THIS question from backend
     let correctZeroIdx = null;
     try {
-      const answersData = await getAnswers([currentQuestion.QnId]);
-      // answersData: [{ QnId, Answer (1-based int 1-4), Options, QnInWords, ImageName }]
+      const answersData = await getAnswers([currentQuestion.qnId]);
+      // answersData: [{ qnId, Answer (1-based int 1-4), Options, QnInWords, ImageName }]
       const match = Array.isArray(answersData)
-        ? answersData.find((a) => a.QnId === currentQuestion.QnId)
+        ? answersData.find((a) => a.qnId === currentQuestion.qnId)
         : null;
       if (match?.Answer != null) correctZeroIdx = match.Answer - 1; // convert to 0-based
     } catch {}
@@ -101,7 +101,7 @@ export default function Quiz() {
     if (revealed) return;
     setTimerRunning(false);
     setRevealed(true);
-    if (currentQuestion) recordAnswer(currentQuestion.QnId, null);
+    if (currentQuestion) recordAnswer(currentQuestion.qnId, null);
     toast("⏰ Time's up!", { icon: '⏱️' });
     setTimeout(() => advance(), 800);
   }, [revealed, currentQuestion]);
@@ -129,7 +129,7 @@ export default function Quiz() {
     const qs         = useGameStore.getState().questions;
 
     // Fetch correct answers for ALL questions at once
-    const realIds = qs.map((q) => q.QnId).filter((id) => id > 0);
+    const realIds = qs.map((q) => q.qnId).filter((id) => id > 0);
     let scoreData = [];
     try {
       if (realIds.length > 0) scoreData = await getAnswers(realIds);
@@ -139,9 +139,9 @@ export default function Quiz() {
     // Backend Answer field: 1-based integer pointing to correct option
     let score = 0;
     const breakdown = qs.map((q) => {
-      const given   = allAnswers.find((a) => a.qnId === q.QnId);
+      const given   = allAnswers.find((a) => a.qnId === q.qnId);
       const correct = Array.isArray(scoreData)
-        ? scoreData.find((s) => s.QnId === q.QnId)
+        ? scoreData.find((s) => s.qnId === q.qnId)
         : null;
       const correctIndex = correct?.Answer != null ? correct.Answer - 1 : null;
       const isCorrect =
@@ -150,7 +150,7 @@ export default function Quiz() {
         given.selectedIndex === correctIndex;
       if (isCorrect) score++;
       return {
-        qnId: q.QnId,
+        qnId: q.qnId,
         questionText: q.qnInWords,
         correct: isCorrect,
         selectedIndex: given?.selectedIndex ?? null,
