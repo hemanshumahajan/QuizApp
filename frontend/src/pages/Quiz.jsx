@@ -151,7 +151,7 @@ export default function Quiz() {
       if (isCorrect) score++;
       return {
         qnId: q.QnId,
-        questionText: q.QnInWords,
+        questionText: q.qnInWords,
         correct: isCorrect,
         selectedIndex: given?.selectedIndex ?? null,
         correctIndex,
