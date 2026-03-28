@@ -169,7 +169,7 @@ export default function Quiz() {
     navigate('/result');
   };
 
-  if (loading || !currentQuestion || !currentQuestion.Options) {
+  if (loading || !currentQuestion || !currentQuestion.options) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4"
         style={{ background: 'radial-gradient(ellipse at 50% 50%, #0d0030 0%, #050510 60%)' }}>
@@ -209,7 +209,7 @@ export default function Quiz() {
           <AnimatePresence mode="wait">
             <motion.div key={`opts-${currentIndex}`} className="grid grid-cols-1 gap-3"
               initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}>
-              {currentQuestion?.Options?.map((opt, idx) => (
+              {currentQuestion?.options?.map((opt, idx) => (
                 <OptionButton
                   key={idx}
                   text={opt}
