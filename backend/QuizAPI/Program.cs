@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using QuizAPI.Data;
 using QuizAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -94,6 +95,8 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<QuizDbContext>();
     db.Database.Migrate();
+
+    DbSeeder.Seed(db);
 }
 
 app.Run();
