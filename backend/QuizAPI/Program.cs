@@ -17,13 +17,17 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins(
-                "http://localhost:5173",   // Vite (React frontend)
-                "http://localhost:3000",    // fallback / CRA
-                "https://quiz-app-azure-mu-29.vercel.app" // Deployed frontend on Vercel
-              )
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        // policy.WithOrigins(
+        //         "http://localhost:5173",   // Vite (React frontend)
+        //         "http://localhost:3000",    // fallback / CRA
+        //         "https://quiz-app-azure-mu-29.vercel.app" // Deployed frontend on Vercel
+        //       )
+        //       .AllowAnyHeader()
+        //       .AllowAnyMethod();
+
+        policy.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
 
