@@ -33,18 +33,17 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// IMPORTANT: UseCors must come BEFORE UseAuthorization and MapControllers
-app.UseCors("AllowFrontend");
+
 
 var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
 app.Urls.Add($"http://*:{port}");
 
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(builder.Environment.ContentRootPath, "Images")),
-    RequestPath = "/Images"
-});
+app.UseRouting();
+
+// IMPORTANT: UseCors must come BEFORE UseAuthorization and MapControllers
+app.UseCors("AllowFrontend");
+
+app.UseStaticFiles();
 
 if (app.Environment.IsDevelopment())
 {
@@ -53,5 +52,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
 app.MapControllers();
 app.Run();
