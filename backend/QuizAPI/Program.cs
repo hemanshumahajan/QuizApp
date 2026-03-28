@@ -15,22 +15,22 @@ builder.Services.AddDbContext<QuizDbContext>(options =>
 // Allow both Vite dev server (5173) and the old CRA port (3000)
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
                 "http://localhost:5173",   // Vite (React frontend)
                 "http://localhost:3000",    // fallback / CRA
                 "https://quiz-app-azure-mu-29.vercel.app/" // Deployed frontend on Vercel
               )
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
 
 var app = builder.Build();
 
 // IMPORTANT: UseCors must come BEFORE UseAuthorization and MapControllers
-app.UseCors();
+app.UseCors("AllowFrontend");
 
 var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
 app.Urls.Add($"http://*:{port}");
