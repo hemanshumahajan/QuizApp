@@ -8,8 +8,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
+                       ?? builder.Configuration.GetConnectionString("DevConnection");
+
 builder.Services.AddDbContext<QuizDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DevConnection")));
+    options.UseNpgsql(connectionString));
 
 // ── CORS ──────────────────────────────────────────────────────────────────────
 // Allow both Vite dev server (5173) and the old CRA port (3000)
@@ -52,11 +55,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
-
 app.MapControllers();
 app.Run();

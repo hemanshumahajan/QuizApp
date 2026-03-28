@@ -54,6 +54,12 @@ namespace QuizAPI.Controllers
 
             // get all current details of the record, then update with quiz results
             Participant participant = _context.Participants.Find(id);
+
+            if (participant == null)
+            {
+                return NotFound();
+            }
+
             participant.Score = _participantResult.Score;
             participant.TimeTaken = _participantResult.TimeTaken;
 

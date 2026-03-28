@@ -33,7 +33,7 @@ namespace QuizAPI.Controllers
                      ImageName = x.ImageName,
                      Options = new string[] { x.Option1, x.Option2, x.Option3, x.Option4 }
                  })
-                 .OrderBy(y => Guid.NewGuid())
+                 .OrderBy(x => EF.Functions.Random())
                  .Take(5)
                  ).ToListAsync();
 
