@@ -17,12 +17,32 @@ if (!string.IsNullOrEmpty(databaseUrl))
     var uri = new Uri(databaseUrl);
     var userInfo = uri.UserInfo.Split(':');
 
-    connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.Trim('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true";
+    var port = uri.Port > 0 ? uri.Port : 5432; // ✅ FIX HERE
+
+    connectionString =
+        $"Host={uri.Host};" +
+        $"Port={port};" +
+        $"Database={uri.AbsolutePath.Trim('/')};" +
+        $"Username={userInfo[0]};" +
+        $"Password={userInfo[1]};" +
+        $"SSL Mode=Require;Trust Server Certificate=true";
 }
 else
 {
-    connectionString = builder.Configuration.GetConnectionString("DevConnection");
+    throw new Exception("DATABASE_URL is missing");
 }
+
+//if (!string.IsNullOrEmpty(databaseUrl))
+//{
+//    var uri = new Uri(databaseUrl);
+//    var userInfo = uri.UserInfo.Split(':');
+
+//    connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.Trim('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true";
+//}
+//else
+//{
+//    connectionString = builder.Configuration.GetConnectionString("DevConnection");
+//}
 
 builder.Services.AddDbContext<QuizDbContext>(options =>
     options.UseNpgsql(connectionString));
